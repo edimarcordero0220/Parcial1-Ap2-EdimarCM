@@ -28,7 +28,7 @@
 
             <div class="text-center">
                 <asp:TextBox ID="IdTextBox" runat="server" Height="27px" Width="89px" ></asp:TextBox>&nbsp
-                <asp:Button ID="Button1" runat="server" Text="Buscar" />
+                <asp:Button ID="Button1" runat="server" Text="Buscar" OnClick="Button1_Click" />
             </div>
 
             <!--Fecha del prestamo-->
@@ -80,7 +80,7 @@
                 <asp:Button ID="NuevoButton" runat="server" Text="Nuevo" />
                 &nbsp&nbsp<asp:Button ID="GuardaButton" runat="server" OnClick="GuardaButton_Click" Text="Guadar" />
 &nbsp;&nbsp&nbsp
-                    <asp:Button ID="EliminarButton" runat="server" Text="Eliminar" />
+                    <asp:Button ID="EliminarButton" runat="server" Text="Eliminar" OnClick="EliminarButton_Click" />
             </div>
             <br />
             <br />

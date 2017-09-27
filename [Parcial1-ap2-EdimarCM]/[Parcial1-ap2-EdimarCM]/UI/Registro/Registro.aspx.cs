@@ -23,6 +23,7 @@ namespace _Parcial1_ap2_EdimarCM_.UI.Registro
             myScriptResDef.CdnDebugPath = "http://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.js";
             ScriptManager.ScriptResourceMapping.AddDefinition("jquery", null, myScriptResDef);
         }
+        Utilidades ut = new Utilidades();
         public void LlenarClase(Presupuesto p)
         {
             p.Descripcion = DescripcionTextBox1.Text;
@@ -32,13 +33,42 @@ namespace _Parcial1_ap2_EdimarCM_.UI.Registro
 
         protected void GuardaButton_Click(object sender, EventArgs e)
         {
-            Presupuesto presupuesto = new Presupuesto();
+           Presupuesto presupuesto = new Presupuesto();
             LlenarClase(presupuesto);
             PresupuestoBLL.Insertar(presupuesto);
             Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Guardado !');</script> ");
-          
+            
             FechaTextBox1.Focus();
 
         }
+        public int String(string texto)
+        {
+            int numero = 0;
+            int.TryParse(texto, out numero);
+            return numero;
+        }
+        public void BuscarPresupuesto(Presupuesto presupuesto)
+        {
+            
+                IdTextBox.Text = presupuesto.PresupuestoId.ToString();
+                DescripcionTextBox1.Text = presupuesto.Descripcion;
+                FechaTextBox1.Text = Convert.ToString(presupuesto.Fecha);
+                MontoTextBox1.Text = Convert.ToString(presupuesto.Monto);
+            
+            
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            BuscarPresupuesto(PresupuestoBLL.Buscar(String(IdTextBox.Text)));
+        }
+
+        protected void EliminarButton_Click(object sender, EventArgs e)
+        {
+            PresupuestoBLL.Eliminar(ut.String(IdTextBox.Text));
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Eliminado!');</script> ");
+        }
+
+    }
     }
 }
