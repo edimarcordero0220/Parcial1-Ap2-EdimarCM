@@ -23,30 +23,37 @@ namespace _Parcial1_ap2_EdimarCM_.UI.Registro
             myScriptResDef.CdnDebugPath = "http://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.js";
             ScriptManager.ScriptResourceMapping.AddDefinition("jquery", null, myScriptResDef);
         }
-        Utilidades ut = new Utilidades();
-        public void LlenarClase(Presupuesto p)
+
+        private Presupuesto Llenar()
         {
-            p.Descripcion = DescripcionTextBox1.Text;
-            p.Fecha = Convert.ToDateTime(FechaTextBox1.Text);
-            p.Monto = Convert.ToInt32(MontoTextBox1.Text);
+            Presupuesto presupu = new Presupuesto();
+            presupu.Fecha = Convert.ToDateTime(FechaTextBox1.Text);
+            presupu.Descripcion = DescripcionTextBox1.Text;
+            presupu.Monto = Convert.ToInt32(MontoTextBox1.Text);
+            return presupu;
         }
 
         protected void GuardaButton_Click(object sender, EventArgs e)
         {
-           Presupuesto presupuesto = new Presupuesto();
-            LlenarClase(presupuesto);
-            PresupuestoBLL.Insertar(presupuesto);
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Guardado !');</script> ");
-            
-            FechaTextBox1.Focus();
+            Presupuesto presupu = new Presupuesto();
+            if (IsValid)
+            {
+                if (presupu.PresupuestoId != 0)
+                {
+                    PresupuestoBLL.Mofidicar(presupu);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('El Usuario se ha Modificado');</script>");
+                }
+                else
+                {
+                    presupu = Llenar();
+                    PresupuestoBLL.Guardar(presupu);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Presupuesto Guardado');</script>");
+
+                }
+            }
 
         }
-        public int String(string texto)
-        {
-            int numero = 0;
-            int.TryParse(texto, out numero);
-            return numero;
-        }
+        
         public void BuscarPresupuesto(Presupuesto presupuesto)
         {
             
@@ -60,15 +67,35 @@ namespace _Parcial1_ap2_EdimarCM_.UI.Registro
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            BuscarPresupuesto(PresupuestoBLL.Buscar(String(IdTextBox.Text)));
+            int id = Utilidades.TOINT(IdTextBox.Text);
+            Presupuesto presupu = PresupuestoBLL.Buscar(p => p.PresupuestoId == id);
+            if (presupu != null)
+            {
+                FechaTextBox1.Text = presupu.Fecha.ToString();
+                DescripcionTextBox1.Text = presupu.Descripcion;
+                MontoTextBox1.Text = presupu.Monto.ToString();
+            }
+            else
+            {
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('No existe el Usuario');</script>");
+            }
         }
 
         protected void EliminarButton_Click(object sender, EventArgs e)
         {
-            PresupuestoBLL.Eliminar(ut.String(IdTextBox.Text));
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Eliminado!');</script> ");
+            int id = Utilidades.TOINT(IdTextBox.Text);
+            Presupuesto presupu = PresupuestoBLL.Buscar(p => p.PresupuestoId == id);
+            if (presupu != null)
+            {
+                if (presupu.PresupuestoId != 1)
+                {
+                    PresupuestoBLL.Eliminar(presupu);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Presupuesto Eliminado');</script>");
+                    
+                }
+            }
         }
 
     }
     }
-}
+
