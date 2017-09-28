@@ -26,11 +26,11 @@ namespace _Parcial1_ap2_EdimarCM_.UI.Registro
 
         private Presupuesto Llenar()
         {
-            Presupuesto presupu = new Presupuesto();
-            presupu.Fecha = Convert.ToDateTime(FechaTextBox1.Text);
-            presupu.Descripcion = DescripcionTextBox1.Text;
-            presupu.Monto = Convert.ToInt32(MontoTextBox1.Text);
-            return presupu;
+            Presupuesto p = new Presupuesto();
+            p.Fecha = Convert.ToDateTime(FechaTextBox1.Text);
+            p.Descripcion = DescripcionTextBox1.Text;
+            //p.Monto = Convert.ToInt32(MontoTextBox1.Text);
+            return p;
         }
 
         protected void GuardaButton_Click(object sender, EventArgs e)

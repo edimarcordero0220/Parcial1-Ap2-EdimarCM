@@ -111,7 +111,30 @@ namespace _Parcial1_ap2_EdimarCM_.Consulta
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Insertar el Intervalo de Fecha');</script>");
                 }
             }
+        
+        else if (PresupuestoDropDownList.SelectedIndex == 2)
+            {
+                if (FiltrarTextBox.Text == "")
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "scripts", "<script>alert('Debe de Insertar la descripcion');</script>");
         }
-
-    }
+                else
+                {
+                    lista = PresupuestoBLL.GetList(p => p.Descripcion == FiltrarTextBox.Text);
+                    PresupuestoGridView.DataSource = lista;
+                    PresupuestoGridView.DataBind();
+                }
 }
+            else if (PresupuestoDropDownList.SelectedIndex == 3)
+            {
+                
+            }
+
+
+                    PresupuestoGridView.DataSource = lista;
+                    PresupuestoGridView.DataBind();
+                }
+            }
+}
+
+    
